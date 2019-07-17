@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Overpass&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <script src = "lib/jsPsych-6.0.5/jspsych.js"></script>
+    <script src="lib/jsPsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
+    <link href="lib/jsPsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    <link href = 'tailgateStyle.css' rel = 'stylesheet' type = 'text/css'>
+    <title> TailGate </title>
+</head>
+
+<body>
+
+    <script src = "tailgateGameAnimated.js"></script>
+
+    "<div id="frame">
+        <div id = "container">
+
+            <img id = "Fbox" class = 'laneBox' src = "assets/F.svg" alt = "F">
+            <img id = "Gbox" class = 'laneBox' src = "assets/G.svg" alt = "G">
+            <img id = "Hbox" class = 'laneBox' src = "assets/H.svg" alt = "H">
+            <img id = "Jbox" class = 'laneBox' src = "assets/J.svg" alt = "J">
+            <img id = "Kbox" class = 'laneBox' src = "assets/K.svg" alt = "K">
+            <img id = "Lbox" class = 'laneBox' src = "assets/L.svg" alt = "L">
+
+            <img id = "redSquare1" class = 'redSquare' src = "assets/thin-blue-line-png-15.png" alt = "Red Square 1">
+            <img id = "redSquare2" class = 'redSquare' src = "assets/thin-blue-line-png-15.png" alt = "Red Square 2">
+            <img id = "redSquare3" class = 'redSquare' src = "assets/thin-blue-line-png-15.png" alt = "Red Square 3">
+            <img id = "redSquare4" class = 'redSquare' src = "assets/thin-blue-line-png-15.png" alt = "Red Square 4">
+            <img id = "redSquare5" class = 'redSquare' src = "assets/thin-blue-line-png-15.png" alt = "Red Square 5">
+            <img id = "redSquare6" class = 'redSquare' src = "assets/thin-blue-line-png-15.png" alt = "Red Square 6">
+
+            <img id = "laneBound1" src = "assets/yellowline.png" alt = "Yellow Line">
+            <img id = "laneBound2" src = "assets/yellowline.png" alt = "Yellow Line">
+
+            <img id = "policeCar1" class = 'policeCar' src = "assets/truck.svg" alt = "Truck Lane 1">
+            <img id = "policeCar2" class = 'policeCar' src = "assets/truck.svg" alt = "Truck Lane 2">
+            <img id = "policeCar3" class = 'policeCar' src = "assets/truck.svg" alt = "Truck Lane 3">
+            <img id = "policeCar4" class = 'policeCar' src = "assets/truck.svg" alt = "Truck Lane 4">
+            <img id = "policeCar5" class = 'policeCar' src = "assets/truck.svg" alt = "Truck Lane 5">
+            <img id = "policeCar6" class = 'policeCar' src = "assets/truck.svg" alt = "Truck Lane 6">
+
+            <img id = "sportsCar" src = "assets/car.svg" alt = "Player">
+
+            <div id = "roadLine1" class = "roadLine"></div>
+            <div id = "roadLine2" class = "roadLine"></div>
+            <div id = "roadLine3" class = "roadLine"></div>
+            <div id = "roadLine4" class = "roadLine"></div>
+            <div id = "roadLine5" class = "roadLine"></div>
+
+
+            <div id = "infoBarImageContainer">
+                <span id = "Time"></span>
+                <span id= "Trucks"></span>
+            </div>
+
+
+        </div>
+    </div>"
+</body>
+
+<script>
+    var timeline = [];
+
+    /*var welcome = {
+        type: "html-keyboard-response",
+        stimulus: "Welcome to the Tailgate game! Press any key to begin."
+    };
+    timeline.push(welcome);*/
+
+    var trial = {
+    type: "tailgate",
+
+    };
+
+    timeline.push(trial);
+
+    jsPsych.init({
+        timeline: timeline,
+
+        on_finish: function(){
+            jsPsych.data.displayData();
+        }
+    });
+
+</script>
+</html>
+
