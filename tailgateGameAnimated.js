@@ -1,10 +1,12 @@
+
+
 jsPsych.plugins['tailgate'] = (function(){
 
         var plugin = {};
 
         plugin.info = {
             name: 'tailgate',
-            parameters: { //put variables in here that want to change like numberOfLanes, pattern, speed, numOfCops...
+            parameters: { //put variables in here that want to change like numberOfLanes, pattern, speed, numOfCops... BRAKEV and ACCELV
                 numberOfLanes: {
                     type: jsPsych.plugins.parameterType.INT,
                     default: 4
@@ -57,6 +59,8 @@ jsPsych.plugins['tailgate'] = (function(){
         const redBox4 = document.getElementById('redSquare4');
         const redBox5 = document.getElementById('redSquare5');
         const redBox6 = document.getElementById('redSquare6');
+
+        const fullScreenIcon = document.getElementById('fullscreenh');
 
         const roadLine1 = document.getElementById('roadLine1');
         const roadLine2 = document.getElementById('roadLine2');
@@ -122,8 +126,12 @@ jsPsych.plugins['tailgate'] = (function(){
         const goalTime = 1800; //complete the game within this many milliseconds
 
 //variables for cop timing animation
-        var copYPos = 5; //y coordinate of where the cop cars are aligned 5% of the height of canvas
-        var initialCopYPos = copYPos; //is not changed
+        var truckYPos = 5; //y coordinate of where the cop cars are aligned 5% of the height of canvas
+
+            /*if(orientation === false){ //portrait mode
+                truckYPos = 8;
+            }*/
+        var initialtruckYPos = truckYPos; //is not changed
 
 //if user is allowed to hit enter to start game
         var startGameBool = true;
@@ -157,23 +165,34 @@ jsPsych.plugins['tailgate'] = (function(){
         var continueDrawingTrucks = false;
 
 //handles different truck accelerations
-        var boolAccel = false;
         var inertia = false;
         var initialCarYPos;
+
+        var animationState = '';
+
+        //braking
+        var brakeV = .012;
+        var accelV = .008;
+        //var carVtemp = carV;
+            var bool = false;
 
 //----------------------------------------
 
         function findOrientation(){
-            if(width <= height){ //landscape mode so true
+            if(width <= height){ //portrait mode
                 orientation = false;
             }
-            else{ //height > width portrait mode
+            else{ //height < width landscape mode
                 orientation = true;
             }
         }
 
 //-------Set up initial assets------------
+        startTutorial();
 
+        function startTutorial(){
+
+        }
         initializeGame();
 
         function initializeGame() {
@@ -244,6 +263,14 @@ jsPsych.plugins['tailgate'] = (function(){
 
         function initializeHelper() {
             findOrientation();
+            if(orientation === false){ //portrait mode
+                truckYPos = 10;
+                initialtruckYPos = truckYPos;
+            }
+            else if(orientation === true){//landscape
+                truckYPos = 5;
+                initialtruckYPos = truckYPos;
+            }
 
             laneBound1.style.left = (.015 * width) + 'px';
             laneBound1.style.top = 0 + 'px';//(-.25 * height) + 'px';
@@ -262,16 +289,16 @@ jsPsych.plugins['tailgate'] = (function(){
             //Game starts with lane one empty
             //so dont show Police car lane 1
             policeCar1.style.left = firstLaneXPos + truckOffset + 'px';
-            policeCar1.style.top = copYPos + '%';
+            policeCar1.style.top = truckYPos + '%';
             policeCar1.style.visibility = 'hidden';
 
             //Police car lane 2
             policeCar2.style.left = secondLaneXPos + truckOffset + 'px';
-            policeCar2.style.top = copYPos + '%';
+            policeCar2.style.top = truckYPos + '%';
 
             //Police car lane 3
             policeCar3.style.left = thirdLaneXPos + truckOffset + 'px';
-            policeCar3.style.top = copYPos + '%';
+            policeCar3.style.top = truckYPos + '%';
 
             //Road Lane 1
             roadLine1.style.left = secondLaneXPos - laneOffset + 'px';
@@ -335,7 +362,7 @@ jsPsych.plugins['tailgate'] = (function(){
 
             //Police car lane 4
             policeCar4.style.left = fourthLaneXPos + truckOffset + 'px';
-            policeCar4.style.top = copYPos + '%';
+            policeCar4.style.top = truckYPos + '%';
 
             //Road Lane 3
             roadLine3.style.left = fourthLaneXPos - laneOffset + 'px';
@@ -380,10 +407,10 @@ jsPsych.plugins['tailgate'] = (function(){
 
             //Police car lane 4
             policeCar4.style.left = fourthLaneXPos + truckOffset + 'px';
-            policeCar4.style.top = copYPos + '%';
+            policeCar4.style.top = truckYPos + '%';
 
             policeCar5.style.left = fifthLaneXPos + truckOffset + 'px';
-            policeCar5.style.top = copYPos + '%';
+            policeCar5.style.top = truckYPos + '%';
 
             //Road Lane 3
             roadLine3.style.left = fourthLaneXPos - laneOffset + 'px';
@@ -420,13 +447,13 @@ jsPsych.plugins['tailgate'] = (function(){
 
             //Police car lane 4
             policeCar4.style.left = fourthLaneXPos + truckOffset + 'px';
-            policeCar4.style.top = copYPos + '%';
+            policeCar4.style.top = truckYPos + '%';
 
             policeCar5.style.left = fifthLaneXPos + truckOffset + 'px';
-            policeCar5.style.top = copYPos + '%';
+            policeCar5.style.top = truckYPos + '%';
 
             policeCar6.style.left = sixthLaneXPos + truckOffset + 'px';
-            policeCar6.style.top = copYPos + '%';
+            policeCar6.style.top = truckYPos + '%';
 
             //Road Lane 3
             roadLine3.style.left = fourthLaneXPos - laneOffset + 'px';
@@ -489,7 +516,7 @@ jsPsych.plugins['tailgate'] = (function(){
 
             //Police car lane 4
             policeCar4.style.left = fourthLaneXPos + truckOffset + 'px';
-            policeCar4.style.top = copYPos + '%';
+            policeCar4.style.top = truckYPos + '%';
 
             //Road Lane 3
             roadLine3.style.left = fourthLaneXPos - laneOffset + 'px';
@@ -526,10 +553,10 @@ jsPsych.plugins['tailgate'] = (function(){
 
             //Police car lane 4
             policeCar4.style.left = fourthLaneXPos + truckOffset + 'px';
-            policeCar4.style.top = copYPos + '%';
+            policeCar4.style.top = truckYPos + '%';
 
             policeCar5.style.left = fifthLaneXPos + truckOffset + 'px';
-            policeCar5.style.top = copYPos + '%';
+            policeCar5.style.top = truckYPos + '%';
 
             //Road Lane 3
             roadLine3.style.left = fourthLaneXPos - laneOffset + 'px';
@@ -572,13 +599,13 @@ jsPsych.plugins['tailgate'] = (function(){
 
             //Police car lane 4
             policeCar4.style.left = fourthLaneXPos + truckOffset + 'px';
-            policeCar4.style.top = copYPos + '%';
+            policeCar4.style.top = truckYPos + '%';
 
             policeCar5.style.left = fifthLaneXPos + truckOffset + 'px';
-            policeCar5.style.top = copYPos + '%';
+            policeCar5.style.top = truckYPos + '%';
 
             policeCar6.style.left = sixthLaneXPos + truckOffset + 'px';
-            policeCar6.style.top = copYPos + '%';
+            policeCar6.style.top = truckYPos + '%';
 
             //Road Lane 3
             roadLine3.style.left = fourthLaneXPos - laneOffset + 'px';
@@ -599,26 +626,108 @@ jsPsych.plugins['tailgate'] = (function(){
             window.requestAnimationFrame(animate);
 
             //laneline drawing happens every frame
-            let carVtemp = carV;
 
-            //adjust carV for drawing laneLines when the car is accelerating
-            if (carV < 1) {
-                if (copYPos >= 49 && copYPos < 50) {
-                    carVtemp = carV - .95; //.95 - .95
-                } else if (copYPos >= 40 && copYPos < 49.5) {
-                    carVtemp = carV - .2; //.7 -.2
-                } else if (copYPos >= 30 && copYPos < 40) {
-                    carVtemp = carV + .1; //.55 + .1
-                } else if (copYPos >= 25 && copYPos < 30) {
-                    carVtemp = carV + .4; //.2 + .4
-                } else if (copYPos >= 10 && copYPos < 25) {
-                    carVtemp = carV + .8; //.15 + .8
-                } else {
-                    carVtemp = 1.35;   //1.35
+            drawLaneLines();
+
+            //player car move left
+            if (left === true) {
+                moveLeft();
+            }
+
+            //player car move right
+            if (right === true) {
+                moveRight();
+            }
+
+            //truck animation states
+            if (animationState === 'movingDown'){
+                acceptUserInput = true;
+                if (correctInputGiven === false && wrongInputGiven === false) { //if user doesnt input anything\
+                    animationState = 'continueDrawingTrucks';
+                }
+                //user gave wrong input so redraw trucks
+                else if (wrongInputGiven === true) {
+
+                    animationState = 'continueDrawingTrucks';
+                    acceptUserInput = false;
+                    wrongInputGiven = false;
+                }
+                //user gave right answer
+                else if (correctInputGiven === true) {
+                    animationState = 'startNewWave';
+
+                    acceptUserInput = false;
+                    correctInputGiven = false;
+                }
+            }
+            else if(animationState === 'continueDrawingTrucks'){
+                var beforeBrake =  truckYPos < 20;
+                    //((orientation === true && truckYPos < 20) ||
+                    //(((initialCarYPos/height) * 100 - truckYPos > 8) && orientation === false));
+
+                if(beforeBrake){
+                    carV = 1.75;
+                }
+                else {
+                    animationState ='braking';
+                }
+            }
+            else if(animationState === 'braking'){
+                acceptUserInput = true;
+                var stillBraking = truckYPos > 15; //.025 x height
+
+                    //((orientation === true && truckYPos > 15) ||
+                    //(((initialCarYPos/height) * 100 - truckYPos > 8) && orientation === false));
+
+                if(stillBraking){ //start braking between 30 and 47
+                    carV -= brakeV;
+                    if(carV < 0) {
+                        carV = 0;
+                    }
+                    if(carV < 1){ //moving up
+                        acceptUserInput = false;
+                    }
+                }
+                else{
+                    acceptUserInput = false;
+                    animationState = 'accelerateUp';
+                    crashSound.play();
+                }
+            }
+            else if(animationState === 'accelerateUp' ){
+                if (carV < 1.75) {
+                    carV += accelV;
+                    if(carV > 1.75) {
+                        carV = 1.75;
+                    }
+                    if(carV > 1){//moving down
+                        acceptUserInput = true;
+                    }
+                }
+                else {//truck has finished repositioning the trucks
+                    animationState = 'movingDown';
+                }
+            }
+            else if(animationState === 'startNewWave'){
+                truckSound.play();
+                if (truckYPos < 115) { //continue drawing trucks until off screen
+                    carV = 2.5; //1.6
+                } else { //trucks are offscreen so start another wave of trucks
+                    emptyLane = copPattern[iterator]; //set the new emptylane
+                    truckYPos = initialtruckYPos - 40; //250
+                    animationState = 'movingDown';
                 }
             }
 
-            let newlaneposition = parseFloat(roadLine1.style.top) + carVtemp;
+            //draw the trucks with the updated carV
+            truckYPos += carV - truckV;
+            //console.log("truckYPos " + truckYPos);
+            console.log("carV " + carV);
+            drawPoliceHelper();
+        }
+
+        function drawLaneLines(){
+            let newlaneposition = parseFloat(roadLine1.style.top) + carV;
             if (newlaneposition > 0) {
                 newlaneposition = -25 + newlaneposition;
             }
@@ -627,21 +736,20 @@ jsPsych.plugins['tailgate'] = (function(){
             roadLine3.style.top = newlaneposition + '%';
             roadLine4.style.top = newlaneposition + '%';
             roadLine5.style.top = newlaneposition + '%';
+        }
 
-            //player car move left
-            if (left === true) {
-                if (currentPlayerXPos > newPos + (.035 * width / 2)) {
-                    currentPlayerXPos -= .035 * width;
-                    sportsCar.style.transform = 'rotate(-15deg)';
-                    sportsCar.style.left = currentPlayerXPos + 'px';
-                } else { //car reaches new position
-                    sportsCar.style.transform = 'rotate(0deg)';
-                    left = false;
-                }
+        function moveLeft(){
+            if (currentPlayerXPos > newPos + (.035 * width / 2)) {
+                currentPlayerXPos -= .035 * width;
+                sportsCar.style.transform = 'rotate(-15deg)';
+                sportsCar.style.left = currentPlayerXPos + 'px';
+            } else { //car reaches new position
+                sportsCar.style.transform = 'rotate(0deg)';
+                left = false;
             }
+        }
 
-            //player car move right
-            if (right === true) {
+        function moveRight(){
                 //player car move right
                 if (currentPlayerXPos < newPos - (.035 * width / 2)) {
                     currentPlayerXPos += .035 * width;
@@ -651,143 +759,6 @@ jsPsych.plugins['tailgate'] = (function(){
                     sportsCar.style.transform = 'rotate(0deg)';
                     right = false;
                 }
-            }
-
-            //truck animation
-            if (startTruckAnimation === true) {
-                acceptUserInput = true;
-                if (correctInputGiven === false && wrongInputGiven === false) {
-                    if(orientation === true && copYPos < 47){
-                        brake();
-                    }
-                    else if (((initialCarYPos/height) * 100 - copYPos > 18) && orientation === false) { //truck hasn't reached player //350
-                        brake();
-                    }
-                    else { //truck has reached the player so redraw trucks
-                        crashSound.play();
-                        //inertia = true;
-                        acceptUserInput = false;
-                        redrawTrucks = true;
-                        startTruckAnimation = false;
-                        boolAccel = true;
-                    }
-                }
-                //user gave wrong input so redraw trucks
-                else if (wrongInputGiven === true) {
-                    acceptUserInput = false;
-                    wrongInputGiven = false;
-                    continueDrawingTrucks = true;
-                    startTruckAnimation = false;
-                    boolAccel = true;
-                }
-                //user gave right answer
-                else if (correctInputGiven === true) {
-                    acceptUserInput = false;
-                    correctInputGiven = false;
-                    startNewWave = true;
-                    startTruckAnimation = false;
-                }
-            }
-
-            if (continueDrawingTrucks === true) {
-                if(orientation === true && copYPos < 47){
-                    brakeWrong();
-                }
-                else if (((initialCarYPos/height) * 100 - copYPos > 18) && orientation === false) { //truck hasn't reached player //350
-                    brakeWrong();
-                }
-                else { //truck has reached the player so redraw the trucks
-                    crashSound.play();
-                    inertia = true;
-                    acceptUserInput = false;
-                    redrawTrucks = true;
-                    continueDrawingTrucks = false;
-                }
-            }
-
-            if (redrawTrucks === true) {
-                if (copYPos > initialCopYPos - 32) { //still hasnt reset trucks to init position 90 , initialcopypos - 15 percent
-                    accelerate();
-                } else {//truck has finished repositioning the trucks
-                    startTruckAnimation = true;
-                    redrawTrucks = false;
-                }
-            }
-
-            if (startNewWave === true) {
-                truckSound.play();
-                if (copYPos < 115) { //75
-                    carV = 2.5; //1.6
-                } else {
-                    emptyLane = copPattern[iterator]; //set the new emptylane
-                    copYPos = initialCopYPos - 40; //250
-                    startTruckAnimation = true;
-                    startNewWave = false;
-                    boolAccel = false;
-                }
-            }
-
-            if (inertia === true) {
-                if (parseFloat(sportsCar.style.top) > initialCarYPos - 5) {
-                    sportsCar.style.top = (parseFloat(sportsCar.style.top) - 2.5) + 'px';
-                } else {
-                    sportsCar.style.top = initialCarYPos + 'px';
-                    inertia = false;
-                }
-            }
-
-            //draw the trucks with the updated carV
-            copYPos += carV - truckV;
-            drawPoliceHelper();
-        }
-
-        function brake() {
-            /*if (copYPos < 47) {
-                if (boolAccel === false) {
-                    carV = 1.75;
-                } else {//boolAccel = true
-                    carV = 1.5;
-                }
-            }*/
-            if(orientation === true && copYPos < 47){
-                if (boolAccel === false) {
-                    carV = 1.75;
-                } else {//boolAccel = true
-                    carV = 1.5;
-                }
-            }
-            else if (((initialCarYPos/height) * 100 - copYPos > 18) && orientation === false) { //truck hasn't reached player //350
-                if (boolAccel === false) {
-                    carV = 1.75;
-                } else {//boolAccel = true
-                    carV = 1.5;
-                }
-            }
-        }
-
-        function brakeWrong() { //called when a wrong input is given to initially accelerate the car to the trucks
-            if(orientation === true && copYPos < 47){
-                carV = 2.5;
-            }
-            else if (((initialCarYPos/height) * 100 - copYPos > 18) && orientation === false) { //truck hasn't reached player //350
-                carV = 2.5;
-            }
-        }
-
-        function accelerate() {
-            if (copYPos >= 49 && copYPos < 50) {
-                carV = .95;
-            } else if (copYPos >= 40 && copYPos < 49) {
-                carV = .7;
-            } else if (copYPos >= 30 && copYPos < 40) {
-                carV = .55;
-            } else if (copYPos >= 25 && copYPos < 30) {
-                carV = .2;
-            } else if (copYPos >= 10 && copYPos < 25) {
-                carV = .15;
-            } else {
-                carV = .1;
-            }
         }
 
         //------Create cop pattern---------
@@ -893,6 +864,12 @@ jsPsych.plugins['tailgate'] = (function(){
         document.addEventListener('touchstart', touch);
 
         function touch(ev) {
+            if(startGameBool === true){ //start the game on mobile when a user presses the screen
+                acceptUserInput = true;
+                startGameBool = false;
+                incrementTimer();
+                animationState = 'movingDown';
+            }
             if (acceptUserInput === true) {
                 if (findLane(ev) === 1 && currentLanePos !== 1) {
 
@@ -1031,6 +1008,24 @@ jsPsych.plugins['tailgate'] = (function(){
             return desiredLane;
         }
 
+        fullScreenIcon.addEventListener('click', toggleFullScreen);
+
+        function toggleFullScreen(e){
+                e.stopPropagation();
+                var doc = window.document;
+                var docEl = doc.documentElement;
+
+                var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+                var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+                if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+                    requestFullScreen.call(docEl);
+                }
+                else {
+                    cancelFullScreen.call(doc);
+                }
+            }
+
         //Keyboard touch input
         //If FGHJ are pressed, move the player to the correct lane
         document.addEventListener('keydown', event => {
@@ -1038,7 +1033,7 @@ jsPsych.plugins['tailgate'] = (function(){
                 acceptUserInput = true;
                 startGameBool = false;
                 incrementTimer();
-                startTruckAnimation = true;
+                animationState = 'movingDown';
             } else if ((event.key === "f" || event.key === 'F') && acceptUserInput === true && currentLanePos !== 1) { //first lane
 
                 acceptUserInput = false;
@@ -1077,7 +1072,7 @@ jsPsych.plugins['tailgate'] = (function(){
                 }
                 currentLanePos = 3;
                 checkInput();
-            } else if ((event.key === "j" || event.key === 'J') && acceptUserInput === true && currentLanePos !== 4 && numberOfLanes != 3) { //first lane
+            } else if ((event.key === "j" || event.key === 'J') && acceptUserInput === true && currentLanePos !== 4 && numberOfLanes !== 3) { //first lane
 
                 acceptUserInput = false;
                 setCurrentPlayerXPos();
@@ -1092,7 +1087,7 @@ jsPsych.plugins['tailgate'] = (function(){
 
                 currentLanePos = 4;
                 checkInput();
-            } else if ((event.key === "k" || event.key === 'K') && acceptUserInput === true && currentLanePos !== 5 && numberOfLanes != 3 && numberOfLanes != 4) { //first lane
+            } else if ((event.key === "k" || event.key === 'K') && acceptUserInput === true && currentLanePos !== 5 && numberOfLanes !== 3 && numberOfLanes !== 4) { //first lane
 
                 acceptUserInput = false;
                 setCurrentPlayerXPos();
@@ -1104,7 +1099,7 @@ jsPsych.plugins['tailgate'] = (function(){
 
                 currentLanePos = 5;
                 checkInput();
-            } else if ((event.key === "l" || event.key === 'L') && acceptUserInput === true && currentLanePos !== 6 && numberOfLanes != 3 && numberOfLanes != 4 && numberOfLanes != 5) { //first lane
+            } else if ((event.key === "l" || event.key === 'L') && acceptUserInput === true && currentLanePos !== 6 && numberOfLanes !== 3 && numberOfLanes !== 4 && numberOfLanes !== 5) { //first lane
 
                 acceptUserInput = false;
                 setCurrentPlayerXPos();
@@ -1174,11 +1169,11 @@ jsPsych.plugins['tailgate'] = (function(){
                     policeCar5.style.visibility = 'visible';
                     policeCar6.style.visibility = 'visible';
 
-                    policeCar2.style.top = copYPos + '%';
-                    policeCar3.style.top = copYPos + '%';
-                    policeCar4.style.top = copYPos + '%';
-                    policeCar5.style.top = copYPos + '%';
-                    policeCar6.style.top = copYPos + '%';
+                    policeCar2.style.top = truckYPos + '%';
+                    policeCar3.style.top = truckYPos + '%';
+                    policeCar4.style.top = truckYPos + '%';
+                    policeCar5.style.top = truckYPos + '%';
+                    policeCar6.style.top = truckYPos + '%';
                     break;
                 case 2:
                     policeCar2.style.visibility = 'hidden';
@@ -1188,11 +1183,11 @@ jsPsych.plugins['tailgate'] = (function(){
                     policeCar5.style.visibility = 'visible';
                     policeCar6.style.visibility = 'visible';
 
-                    policeCar1.style.top = copYPos + '%';
-                    policeCar3.style.top = copYPos + '%';
-                    policeCar4.style.top = copYPos + '%';
-                    policeCar5.style.top = copYPos + '%';
-                    policeCar6.style.top = copYPos + '%';
+                    policeCar1.style.top = truckYPos + '%';
+                    policeCar3.style.top = truckYPos + '%';
+                    policeCar4.style.top = truckYPos + '%';
+                    policeCar5.style.top = truckYPos + '%';
+                    policeCar6.style.top = truckYPos + '%';
                     break;
                 case 3:
                     policeCar3.style.visibility = 'hidden';
@@ -1202,11 +1197,11 @@ jsPsych.plugins['tailgate'] = (function(){
                     policeCar5.style.visibility = 'visible';
                     policeCar6.style.visibility = 'visible';
 
-                    policeCar1.style.top = copYPos + '%';
-                    policeCar2.style.top = copYPos + '%';
-                    policeCar4.style.top = copYPos + '%';
-                    policeCar5.style.top = copYPos + '%';
-                    policeCar6.style.top = copYPos + '%';
+                    policeCar1.style.top = truckYPos + '%';
+                    policeCar2.style.top = truckYPos + '%';
+                    policeCar4.style.top = truckYPos + '%';
+                    policeCar5.style.top = truckYPos + '%';
+                    policeCar6.style.top = truckYPos + '%';
                     break;
                 case 4:
                     policeCar4.style.visibility = 'hidden';
@@ -1216,11 +1211,11 @@ jsPsych.plugins['tailgate'] = (function(){
                     policeCar5.style.visibility = 'visible';
                     policeCar6.style.visibility = 'visible';
 
-                    policeCar1.style.top = copYPos + '%';
-                    policeCar2.style.top = copYPos + '%';
-                    policeCar3.style.top = copYPos + '%';
-                    policeCar5.style.top = copYPos + '%';
-                    policeCar6.style.top = copYPos + '%';
+                    policeCar1.style.top = truckYPos + '%';
+                    policeCar2.style.top = truckYPos + '%';
+                    policeCar3.style.top = truckYPos + '%';
+                    policeCar5.style.top = truckYPos + '%';
+                    policeCar6.style.top = truckYPos + '%';
                     break;
                 case 5:
                     policeCar5.style.visibility = 'hidden';
@@ -1230,11 +1225,11 @@ jsPsych.plugins['tailgate'] = (function(){
                     policeCar4.style.visibility = 'visible';
                     policeCar6.style.visibility = 'visible';
 
-                    policeCar1.style.top = copYPos + '%';
-                    policeCar2.style.top = copYPos + '%';
-                    policeCar3.style.top = copYPos + '%';
-                    policeCar4.style.top = copYPos + '%';
-                    policeCar6.style.top = copYPos + '%';
+                    policeCar1.style.top = truckYPos + '%';
+                    policeCar2.style.top = truckYPos + '%';
+                    policeCar3.style.top = truckYPos + '%';
+                    policeCar4.style.top = truckYPos + '%';
+                    policeCar6.style.top = truckYPos + '%';
                     break;
                 case 6:
                     policeCar6.style.visibility = 'hidden';
@@ -1244,11 +1239,11 @@ jsPsych.plugins['tailgate'] = (function(){
                     policeCar4.style.visibility = 'visible';
                     policeCar5.style.visibility = 'visible';
 
-                    policeCar1.style.top = copYPos + '%';
-                    policeCar2.style.top = copYPos + '%';
-                    policeCar3.style.top = copYPos + '%';
-                    policeCar4.style.top = copYPos + '%';
-                    policeCar5.style.top = copYPos + '%';
+                    policeCar1.style.top = truckYPos + '%';
+                    policeCar2.style.top = truckYPos + '%';
+                    policeCar3.style.top = truckYPos + '%';
+                    policeCar4.style.top = truckYPos + '%';
+                    policeCar5.style.top = truckYPos + '%';
                     break;
             }
         }
@@ -1271,10 +1266,10 @@ jsPsych.plugins['tailgate'] = (function(){
                     }
                 }
                 correctInputGiven = true;
-                startTruckAnimation = true;
+                animationState = 'movingDown';
             } else {//player gave wrong input
                 wrongInputGiven = true;
-                startTruckAnimation = true;
+                animationState = 'movingDown';
             }
         }
     }

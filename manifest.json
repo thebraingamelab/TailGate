@@ -1,0 +1,21 @@
+{
+  "short_name": "Tailgate",
+  "name": "Tailgate Game",
+  "display": "standalone",
+  "start_url": "/indexAnimated.html",
+  "background_color": "#3367D6",
+  "theme_color": "#3367D6",
+  "orientation": "landscape",
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
