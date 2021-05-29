@@ -359,6 +359,17 @@ body{
 
 }
 
+#finishLine{
+    position: absolute;
+    color: #ffffff;
+    width: 90%;
+    height: 1%;
+    top: 10%;
+    left: 5%;
+    z-index: 3;
+    border-bottom: 1px solid white;
+}
+
 #timer-label {
     /*display: inline-block;
     width: 60%;

@@ -55,8 +55,8 @@ jsPsych.plugins['tailgate'] = (function(){
             "<img id = 'yellowPoliceCar1' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 1'> <img id = 'yellowPoliceCar2' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 2'> <img id = 'yellowPoliceCar3' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 3'> <img id = 'yellowPoliceCar4' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 4'> <img id = 'yellowPoliceCar5' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 5'> <img id = 'yellowPoliceCar6' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 6'> " +
             "<img id = 'sportsCar' src = 'assets/car.svg' alt = 'Player'> " +
             "<div id = 'roadLine1' class = 'roadLine'></div> <div id = 'roadLine2' class = 'roadLine'></div> <div id = 'roadLine3' class = 'roadLine'></div> <div id = 'roadLine4' class = 'roadLine'></div> <div id = 'roadLine5' class = 'roadLine'></div> </div>   " +
-            "<div id = 'overlay'> <span id = 'timer-label'>LIVES</span> <span id = 'Time'>3</span> <span id = 'lineSeparator'> </span> <span id = 'score-label'>SCORE</span> <span id = 'Trucks'>0</span> </div>"+
-            "<div id = 'trackOverlay'> <span id = 'player1-icon'></span> </div> </div> </div>";
+            "<div id = 'overlay'> <span id = 'timer-label'>RANK</span> <span id = 'Time'>1</span> <span id = 'lineSeparator'> </span> <span id = 'score-label'>SCORE</span> <span id = 'Trucks'>0</span> </div>"+
+            "<div id = 'trackOverlay'> <span id = 'player1-icon'></span> <span id = 'finishLine'></span> </div> </div> </div>";
 
         const canvas = document.getElementById('container'); //div element
         // const context = canvas.getContext('2d');
@@ -281,7 +281,8 @@ jsPsych.plugins['tailgate'] = (function(){
 
         var currentTruckSequence = 1;
 
-        var lives = 3; //user starts out with five lives
+        var lives = 1; //user starts out with five lives
+        var rank = 1;
         var score = 0;
 
         var mute = false;
@@ -421,7 +422,7 @@ jsPsych.plugins['tailgate'] = (function(){
 
             document.getElementById("Time").innerText = secs + "." + hundredths;*/
             console.log("Element in question is " + document.getElementById("Time"));
-            document.getElementById("Time").innerText = lives + "";
+            document.getElementById("Time").innerText = rank + "";
 
             findOrientation();
 
@@ -1113,10 +1114,10 @@ jsPsych.plugins['tailgate'] = (function(){
                 else{
                     console.log('hit');
                     acceptUserInput = false;
-                    lives--;
+                    //lives--;
                     doubleError = true;
 
-                    document.getElementById("Time").innerText = lives + "";
+                    document.getElementById("Time").innerText = rank + "";
                     animationState = 'accelerateUp';
                 }
             }
@@ -2248,7 +2249,7 @@ jsPsych.plugins['tailgate'] = (function(){
                 else {
                     doubleError = false;
                 }
-                document.getElementById("Time").innerText = lives + "";
+                document.getElementById("Time").innerText = rank + "";
 
                 wrongInputGiven = true;
                 /*if(lives === 0){
@@ -2266,6 +2267,9 @@ jsPsych.plugins['tailgate'] = (function(){
             score += 1;       
             currentY -=2;
             document.getElementById('player1-icon').style.top = currentY + '%';
+            if(currentY <= 10){
+                livesDone();
+            }
         }
 
         
