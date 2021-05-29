@@ -1,62 +1,62 @@
 
-
 jsPsych.plugins['tailgate'] = (function(){
 
-        var plugin = {};
+    var plugin = {};
 
-        plugin.info = {
-            name: 'tailgate',
-            parameters: { //put variables in here that want to change like numberOfLanes, pattern, speed, numOfCops... BRAKEV and ACCELV
-                numberOfLanes: {
-                    type: jsPsych.plugins.parameterType.INT,
-                    default: 4,
-                    description: "The number of lanes in the game -> can be 3, 4, or 5"
-                },
-                truckSequence1: {
-                    type: jsPsych.plugins.parameterType.ARRAY,
-                    default: null,
-                    description: "An array of four different trucks"
-                },
-                truckSequence2: {
-                    type: jsPsych.plugins.parameterType.ARRAY,
-                    default: null,
-                    description: "An array of four different trucks"
-                },
-                truckSequence3: {
-                    type: jsPsych.plugins.parameterType.ARRAY,
-                    default: null,
-                    description: "An array of four different trucks"
-                },
-                truckSequence4: {
-                    type: jsPsych.plugins.parameterType.ARRAY,
-                    default: null,
-                    description: "An array of four different trucks"
-                },
-                overallGameTime: {
-                    type: jsPsych.plugins.parameterType.INT,
-                    default: null,
-                    description: "How long a trial is in milliseconds"
-                }
+    plugin.info = {
+        name: 'tailgate',
+        parameters: { //put variables in here that want to change like numberOfLanes, pattern, speed, numOfCops... BRAKEV and ACCELV
+            numberOfLanes: {
+                type: jsPsych.plugins.parameterType.INT,
+                default: 4,
+                description: "The number of lanes in the game -> can be 3, 4, or 5"
+            },
+            truckSequence1: {
+                type: jsPsych.plugins.parameterType.ARRAY,
+                default: null,
+                description: "An array of four different trucks"
+            },
+            truckSequence2: {
+                type: jsPsych.plugins.parameterType.ARRAY,
+                default: null,
+                description: "An array of four different trucks"
+            },
+            truckSequence3: {
+                type: jsPsych.plugins.parameterType.ARRAY,
+                default: null,
+                description: "An array of four different trucks"
+            },
+            truckSequence4: {
+                type: jsPsych.plugins.parameterType.ARRAY,
+                default: null,
+                description: "An array of four different trucks"
+            },
+            overallGameTime: {
+                type: jsPsych.plugins.parameterType.INT,
+                default: null,
+                description: "How long a trial is in milliseconds"
             }
-        };
+        }
+    };
 
-        plugin.trial = function(display_element, trial) {
+    plugin.trial = function(display_element, trial) {
 
         display_element.innerHTML = "<div id='frame'> <div id = 'container'> <img id = 'Fbox' class = 'laneBox' src = 'assets/F.svg' alt = 'F'> <img id = 'Gbox' class = 'laneBox' src = 'assets/G.svg' alt = 'G'> <img id = 'Hbox' class = 'laneBox' src = 'assets/H.svg' alt = 'H'> <img id = 'Jbox' class = 'laneBox' src = 'assets/J.svg' alt = 'J'> <img id = 'Kbox' class = 'laneBox' src = 'assets/K.svg' alt = 'K'> <img id = 'Lbox' class = 'laneBox' src = 'assets/L.svg' alt = 'L'> " +
-                                    "<img id = 'redSquare1' class = 'redSquare' src = 'assets/thin-blue-line-png-15.png' alt = 'Red Square 1'> <img id = 'redSquare2' class = 'redSquare' src = 'assets/thin-blue-line-png-15.png' alt = 'Red Square 2'> <img id = 'redSquare3' class = 'redSquare' src = 'assets/thin-blue-line-png-15.png' alt = 'Red Square 3'> <img id = 'redSquare4' class = 'redSquare' src = 'assets/thin-blue-line-png-15.png' alt = 'Red Square 4'> <img id = 'redSquare5' class = 'redSquare' src = 'assets/thin-blue-line-png-15.png' alt = 'Red Square 5'> <img id = 'redSquare6' class = 'redSquare' src = 'assets/thin-blue-line-png-15.png' alt = 'Red Square 6'> " +
-                                    "<img id = 'laneBound1' src = 'assets/yellowline.png' alt = 'Yellow Line'> <img id = 'laneBound2' src = 'assets/yellowline.png' alt = 'Yellow Line'> " +
-                                    "<div id = 'countdownFrame'> <img id = 'countDown1' src = 'assets/countdown-1.svg' alt = '1'> </div> <div id = 'countdownFrame2'> <img id = 'countDown2' src = 'assets/countdown-2.svg' alt = '2'> </div> <div id = 'countdownFrame3'> <img id = 'countDown3' src = 'assets/countdown-3.svg' alt = '3'> </div>" +
-                                    "<div id = 'tutorialSignFrame'> <img id = 'tutorialSign' src = 'assets/tutorialSign.svg' alt = 'Tutorial Sign'> " +
-                                    "<div id = 'tutorialText'> <p id = 'introText'></p> <div id = 'tutButton'> CONTINUE </div> </div> </div>" +
-                                    "<div id = 'tutorialSignFrame2'> <img id = 'tutorialSign2' src = 'assets/tutorialSignSide.svg' alt = 'Tutorial Sign Side'> " +
-                                    "<div id = 'tutorialText2'> <p id = 'introText2'></p></div></div>" +
-                                    "<img id = 'policeCar1' class = 'policeCar' src = 'assets/truck.svg' alt = 'Truck Lane 1'> <img id = 'policeCar2' class = 'policeCar' src = 'assets/truck.svg' alt = 'Truck Lane 2'> <img id = 'policeCar3' class = 'policeCar' src = 'assets/truck.svg' alt = 'Truck Lane 3'> <img id = 'policeCar4' class = 'policeCar' src = 'assets/truck.svg' alt = 'Truck Lane 4'> <img id = 'policeCar5' class = 'policeCar' src = 'assets/truck.svg' alt = 'Truck Lane 5'> <img id = 'policeCar6' class = 'policeCar' src = 'assets/truck.svg' alt = 'Truck Lane 6'> " +
-                                    "<img id = 'redPoliceCar1' class = 'policeCar' src = 'assets/truck2.svg' alt = 'Truck Lane 1'> <img id = 'redPoliceCar2' class = 'policeCar' src = 'assets/truck2.svg' alt = 'Truck Lane 2'> <img id = 'redPoliceCar3' class = 'policeCar' src = 'assets/truck2.svg' alt = 'Truck Lane 3'> <img id = 'redPoliceCar4' class = 'policeCar' src = 'assets/truck2.svg' alt = 'Truck Lane 4'> <img id = 'redPoliceCar5' class = 'policeCar' src = 'assets/truck2.svg' alt = 'Truck Lane 5'> <img id = 'redPoliceCar6' class = 'policeCar' src = 'assets/truck2.svg' alt = 'Truck Lane 6'> " +
-                                    "<img id = 'greenPoliceCar1' class = 'policeCar' src = 'assets/truck3.svg' alt = 'Truck Lane 1'> <img id = 'greenPoliceCar2' class = 'policeCar' src = 'assets/truck3.svg' alt = 'Truck Lane 2'> <img id = 'greenPoliceCar3' class = 'policeCar' src = 'assets/truck3.svg' alt = 'Truck Lane 3'> <img id = 'greenPoliceCar4' class = 'policeCar' src = 'assets/truck3.svg' alt = 'Truck Lane 4'> <img id = 'greenPoliceCar5' class = 'policeCar' src = 'assets/truck3.svg' alt = 'Truck Lane 5'> <img id = 'greenPoliceCar6' class = 'policeCar' src = 'assets/truck3.svg' alt = 'Truck Lane 6'> " +
-                                    "<img id = 'yellowPoliceCar1' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 1'> <img id = 'yellowPoliceCar2' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 2'> <img id = 'yellowPoliceCar3' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 3'> <img id = 'yellowPoliceCar4' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 4'> <img id = 'yellowPoliceCar5' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 5'> <img id = 'yellowPoliceCar6' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 6'> " +
-                                    "<img id = 'sportsCar' src = 'assets/car.svg' alt = 'Player'> " +
-                                    "<div id = 'roadLine1' class = 'roadLine'></div> <div id = 'roadLine2' class = 'roadLine'></div> <div id = 'roadLine3' class = 'roadLine'></div> <div id = 'roadLine4' class = 'roadLine'></div> <div id = 'roadLine5' class = 'roadLine'></div> </div>   " +
-                                    "<div id = 'overlay'> <span id = 'timer-label'>TIME</span> <span id = 'Time'>90.00</span> <span id = 'lineSeparator'> </span> <span id = 'score-label'>SCORE</span> <span id = 'Trucks'>0</span> </div> </div> </div>";
+            "<img id = 'redSquare1' class = 'redSquare' src = 'assets/thin-blue-line-png-15.png' alt = 'Red Square 1'> <img id = 'redSquare2' class = 'redSquare' src = 'assets/thin-blue-line-png-15.png' alt = 'Red Square 2'> <img id = 'redSquare3' class = 'redSquare' src = 'assets/thin-blue-line-png-15.png' alt = 'Red Square 3'> <img id = 'redSquare4' class = 'redSquare' src = 'assets/thin-blue-line-png-15.png' alt = 'Red Square 4'> <img id = 'redSquare5' class = 'redSquare' src = 'assets/thin-blue-line-png-15.png' alt = 'Red Square 5'> <img id = 'redSquare6' class = 'redSquare' src = 'assets/thin-blue-line-png-15.png' alt = 'Red Square 6'> " +
+            "<img id = 'laneBound1' src = 'assets/yellowline.png' alt = 'Yellow Line'> <img id = 'laneBound2' src = 'assets/yellowline.png' alt = 'Yellow Line'> " +
+            "<div id = 'countdownFrame'> <img id = 'countDown1' src = 'assets/countdown-1.svg' alt = '1'> </div> <div id = 'countdownFrame2'> <img id = 'countDown2' src = 'assets/countdown-2.svg' alt = '2'> </div> <div id = 'countdownFrame3'> <img id = 'countDown3' src = 'assets/countdown-3.svg' alt = '3'> </div>" +
+            "<div id = 'tutorialSignFrame'> <img id = 'tutorialSign' src = 'assets/tutorialSign.svg' alt = 'Tutorial Sign'> " +
+            "<div id = 'tutorialText'> <p id = 'introText'></p> <div id = 'tutButton'> CONTINUE </div> </div> </div>" +
+            "<div id = 'tutorialSignFrame2'> <img id = 'tutorialSign2' src = 'assets/tutorialSignSide.svg' alt = 'Tutorial Sign Side'> " +
+            "<div id = 'tutorialText2'> <p id = 'introText2'></p></div></div>" +
+            "<img id = 'policeCar1' class = 'policeCar' src = 'assets/truck.svg' alt = 'Truck Lane 1'> <img id = 'policeCar2' class = 'policeCar' src = 'assets/truck.svg' alt = 'Truck Lane 2'> <img id = 'policeCar3' class = 'policeCar' src = 'assets/truck.svg' alt = 'Truck Lane 3'> <img id = 'policeCar4' class = 'policeCar' src = 'assets/truck.svg' alt = 'Truck Lane 4'> <img id = 'policeCar5' class = 'policeCar' src = 'assets/truck.svg' alt = 'Truck Lane 5'> <img id = 'policeCar6' class = 'policeCar' src = 'assets/truck.svg' alt = 'Truck Lane 6'> " +
+            "<img id = 'redPoliceCar1' class = 'policeCar' src = 'assets/truck2.svg' alt = 'Truck Lane 1'> <img id = 'redPoliceCar2' class = 'policeCar' src = 'assets/truck2.svg' alt = 'Truck Lane 2'> <img id = 'redPoliceCar3' class = 'policeCar' src = 'assets/truck2.svg' alt = 'Truck Lane 3'> <img id = 'redPoliceCar4' class = 'policeCar' src = 'assets/truck2.svg' alt = 'Truck Lane 4'> <img id = 'redPoliceCar5' class = 'policeCar' src = 'assets/truck2.svg' alt = 'Truck Lane 5'> <img id = 'redPoliceCar6' class = 'policeCar' src = 'assets/truck2.svg' alt = 'Truck Lane 6'> " +
+            "<img id = 'greenPoliceCar1' class = 'policeCar' src = 'assets/truck3.svg' alt = 'Truck Lane 1'> <img id = 'greenPoliceCar2' class = 'policeCar' src = 'assets/truck3.svg' alt = 'Truck Lane 2'> <img id = 'greenPoliceCar3' class = 'policeCar' src = 'assets/truck3.svg' alt = 'Truck Lane 3'> <img id = 'greenPoliceCar4' class = 'policeCar' src = 'assets/truck3.svg' alt = 'Truck Lane 4'> <img id = 'greenPoliceCar5' class = 'policeCar' src = 'assets/truck3.svg' alt = 'Truck Lane 5'> <img id = 'greenPoliceCar6' class = 'policeCar' src = 'assets/truck3.svg' alt = 'Truck Lane 6'> " +
+            "<img id = 'yellowPoliceCar1' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 1'> <img id = 'yellowPoliceCar2' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 2'> <img id = 'yellowPoliceCar3' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 3'> <img id = 'yellowPoliceCar4' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 4'> <img id = 'yellowPoliceCar5' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 5'> <img id = 'yellowPoliceCar6' class = 'policeCar' src = 'assets/truck4.svg' alt = 'Truck Lane 6'> " +
+            "<img id = 'sportsCar' src = 'assets/car.svg' alt = 'Player'> " +
+            "<div id = 'roadLine1' class = 'roadLine'></div> <div id = 'roadLine2' class = 'roadLine'></div> <div id = 'roadLine3' class = 'roadLine'></div> <div id = 'roadLine4' class = 'roadLine'></div> <div id = 'roadLine5' class = 'roadLine'></div> </div>   " +
+            "<div id = 'overlay'> <span id = 'timer-label'>LIVES</span> <span id = 'Time'>3</span> <span id = 'lineSeparator'> </span> <span id = 'score-label'>SCORE</span> <span id = 'Trucks'>0</span> </div>"+
+            "<div id = 'trackOverlay'> <span id = 'player1-icon'></span> </div> </div> </div>";
 
         const canvas = document.getElementById('container'); //div element
         // const context = canvas.getContext('2d');
@@ -116,6 +116,7 @@ jsPsych.plugins['tailgate'] = (function(){
         const roadLine5 = document.getElementById('roadLine5');
 
         const infoBarImageContainer = document.getElementById('overlay'); //holds the time and score
+        const trackBarImageContainer = document.getElementById('trackOverlay'); //holds the ranking display
         const tutorialSign = document.getElementById('tutorialSign');
         const introText = document.getElementById('introText');
         const tutorialSign2 = document.getElementById('tutorialSign2');
@@ -131,6 +132,8 @@ jsPsych.plugins['tailgate'] = (function(){
         const timerLabel = document.getElementById('Time');
 
         const sportsCar = document.getElementById('sportsCar');
+
+        var doubleError = false;
 
 //--------Global Variables----------
 //canvas.style.height = (window.innerHeight) + 'px';
@@ -193,20 +196,23 @@ jsPsych.plugins['tailgate'] = (function(){
         var time = 0;
 
         var timerRunning = true; //when game starts, set to true
-        const overallGameTime = 6000; //complete the game within this many milliseconds
+        //const overallGameTime = 6000; //complete the game within this many milliseconds
 
-        var remainingTime = overallGameTime - time;
+        //var remainingTime = overallGameTime - time;
 
-        var tempTime = 1000;
+        //var tempTime = 1000;
         var listOfDataPoints = []; //an array of datapoints
         var dataPoint = []; //this array holds ms for input, which truckSequence, and which truck in truckSequence
-            //variables for cop timing animation
+        //variables for cop timing animation
         var inputTime = []; //array for holding all the times it took for a user to input an answer
         var truckYPos = 5; //y coordinate of where the cop cars are aligned 5% of the height of canvas
 
-            /*if(orientation === false){ //portrait mode
-                truckYPos = 8;
-            }*/
+        var startTime = 0;
+        var endTime = 0;
+
+        /*if(orientation === false){ //portrait mode
+            truckYPos = 8;
+        }*/
         var initialtruckYPos = truckYPos; //is not changed
 
 //if user is allowed to hit enter to start game
@@ -229,7 +235,7 @@ jsPsych.plugins['tailgate'] = (function(){
         var truckV = 1; // 1 percent
         var maxCarV = 2.25;
 
-        var incrementSpeed = 8;
+        var incrementSpeed = 10;
 
         var changeValCounter = 0;
 
@@ -275,7 +281,7 @@ jsPsych.plugins['tailgate'] = (function(){
 
         var currentTruckSequence = 1;
 
-        var lives = 5; //user starts out with five lives
+        var lives = 3; //user starts out with five lives
         var score = 0;
 
         var mute = false;
@@ -283,6 +289,10 @@ jsPsych.plugins['tailgate'] = (function(){
         var doubleClickChecker = false;
 
         var countdownIsPlaying = false; //the 321 countdown is originally not playing
+
+        var lifeBoolean = false;
+
+        var currentY = 85; // initial position of the icon
 //----------------------------------------
 
         function findOrientation(){
@@ -325,7 +335,7 @@ jsPsych.plugins['tailgate'] = (function(){
                 tutButton.style.visibility = 'visible';
                 tutorialSign2.style.visibility = 'hidden';
                 introText2.style.visibility = 'hidden';
-                introText.innerHTML = "Try to score as many points as possible in 60 seconds.";
+                introText.innerHTML = "Try to score as many points before you crash 3 times!";
                 tutButton.innerHTML = "START GAME";
                 //add the 3 2 1 go animation
             }
@@ -400,7 +410,7 @@ jsPsych.plugins['tailgate'] = (function(){
 
         function initializeHelper() {
 
-            let secs = Math.floor(remainingTime / 100);
+            /*let secs = Math.floor(remainingTime / 100);
             let hundredths = remainingTime % 100;
             if (secs < 10) {
                 secs = "0" + secs.toString();
@@ -409,7 +419,9 @@ jsPsych.plugins['tailgate'] = (function(){
             }
             hundredths = hundredths.toString();
 
-            document.getElementById("Time").innerText = secs + "." + hundredths;
+            document.getElementById("Time").innerText = secs + "." + hundredths;*/
+            console.log("Element in question is " + document.getElementById("Time"));
+            document.getElementById("Time").innerText = lives + "";
 
             findOrientation();
 
@@ -798,6 +810,9 @@ jsPsych.plugins['tailgate'] = (function(){
 
             infoBarImageContainer.style.left = 0 + 'px';
             infoBarImageContainer.style.top = (.016 * height) + 'px';
+
+            trackBarImageContainer.style.left = 0 + 'px';
+            trackBarImageContainer.style.top = (.026 * height) + 'px';
         }
 
         function resize4() { //redraw if the window size is changed
@@ -841,6 +856,9 @@ jsPsych.plugins['tailgate'] = (function(){
 
             infoBarImageContainer.style.left = 0 + 'px';
             infoBarImageContainer.style.top = (.016 * height) + 'px';
+
+            trackBarImageContainer.style.left = 0 + 'px';
+            trackBarImageContainer.style.top = (.026 * height) + 'px';
         }
 
         function resize5() {
@@ -903,6 +921,9 @@ jsPsych.plugins['tailgate'] = (function(){
 
             infoBarImageContainer.style.left = 0 + 'px';
             infoBarImageContainer.style.top = (.016 * height) + 'px';
+
+            trackBarImageContainer.style.left = 0 + 'px';
+            trackBarImageContainer.style.top = (.026 * height) + 'px';
         }
 
         function resize6() {
@@ -982,16 +1003,24 @@ jsPsych.plugins['tailgate'] = (function(){
 
             infoBarImageContainer.style.left = 0 + 'px';
             infoBarImageContainer.style.top = (.016 * height) + 'px';
+
+            trackBarImageContainer.style.left = 0 + 'px';
+            trackBarImageContainer.style.top = (.026 * height) + 'px';
         }
 
 
         function animate() {
             window.requestAnimationFrame(animate);
 
-            if(remainingTime <= 0){ //remaing time is goalTime - time and time is incremented every ms
+            /*if(remainingTime <= 0){ //remaing time is goalTime - time and time is incremented every ms
                 acceptUserInput = false;
                 timerLabel.innerHTML = '0.00';
                 timeUp(); //no more time left so game is over
+            }*/
+
+            if(lives === 0){
+                acceptUserInput = false;
+                livesDone();
             }
 
             //laneline drawing happens every frame
@@ -1029,6 +1058,7 @@ jsPsych.plugins['tailgate'] = (function(){
 
             //truck animation states
             if (animationState === 'movingDown'){
+                startTime = time;
                 acceptUserInput = true;
                 if (correctInputGiven === false && wrongInputGiven === false) { //if user doesnt input anything\
                     animationState = 'continueDrawingTrucks';
@@ -1049,8 +1079,8 @@ jsPsych.plugins['tailgate'] = (function(){
             }
             else if(animationState === 'continueDrawingTrucks'){
                 var beforeBrake =  truckYPos < 15;
-                    //((orientation === true && truckYPos < 20) ||
-                    //(((initialCarYPos/height) * 100 - truckYPos > 8) && orientation === false));
+                //((orientation === true && truckYPos < 20) ||
+                //(((initialCarYPos/height) * 100 - truckYPos > 8) && orientation === false));
 
                 if(beforeBrake){
                     carV = maxCarV;
@@ -1065,25 +1095,33 @@ jsPsych.plugins['tailgate'] = (function(){
 
                 var stillBraking = truckYPos > 15; //.025 x height
 
-                    //((orientation === true && truckYPos > 15) ||
-                    //(((initialCarYPos/height) * 100 - truckYPos > 8) && orientation === false));
+                //((orientation === true && truckYPos > 15) ||
+                //(((initialCarYPos/height) * 100 - truckYPos > 8) && orientation === false));
 
                 if(stillBraking){ //start braking between 30 and 47
                     carV -= brakeV;
                     if(carV < 0) {
                         carV = 0;
                     }
+
                     if(carV < 1){ //moving up
                         crashSound.play();
+                        lifeBoolean = true;
                         acceptUserInput = false;
                     }
                 }
                 else{
+                    console.log('hit');
                     acceptUserInput = false;
+                    lives--;
+                    doubleError = true;
+
+                    document.getElementById("Time").innerText = lives + "";
                     animationState = 'accelerateUp';
                 }
             }
             else if(animationState === 'accelerateUp' ){
+
                 if (carV < stopVal) {
                     carV += accelV;
                     if(carV > stopVal) {
@@ -1119,7 +1157,7 @@ jsPsych.plugins['tailgate'] = (function(){
                     }
                     else {
                         emptyLane = copPattern[iterator]; //set the new emptylane
-                        tempTime = remainingTime;
+                        //tempTime = remainingTime;
                         truckYPos = initialtruckYPos - 40; //250
                         animationState = 'movingDown';
                     }
@@ -1155,20 +1193,20 @@ jsPsych.plugins['tailgate'] = (function(){
         }
 
         function moveRight(){
-                //player car move right
-                if (currentPlayerXPos < newPos - (.035 * width / 2)) {
-                    currentPlayerXPos += .075 * width;
-                    sportsCar.style.transform = 'rotate(15deg)';
-                    sportsCar.style.left = currentPlayerXPos + 'px';
-                } else { //car reaches new position
-                    sportsCar.style.transform = 'rotate(0deg)';
-                    right = false;
-                }
+            //player car move right
+            if (currentPlayerXPos < newPos - (.035 * width / 2)) {
+                currentPlayerXPos += .075 * width;
+                sportsCar.style.transform = 'rotate(15deg)';
+                sportsCar.style.left = currentPlayerXPos + 'px';
+            } else { //car reaches new position
+                sportsCar.style.transform = 'rotate(0deg)';
+                right = false;
+            }
         }
 
         //------Create cop pattern---------
 
-            //Used with timed version of the game
+        //Used with timed version of the game
         //adds the random values to the copPattern array to be used in game
         /*function createTruckPattern() {
             let i, temp;
@@ -1191,24 +1229,24 @@ jsPsych.plugins['tailgate'] = (function(){
             }
             switch(currentTruckSequence){
                 case 1: for(i = 0; i < truckSequence1.length; i++){
-                            copPattern.push(truckSequence1[i]);
-                        }
-                        break;
+                    copPattern.push(truckSequence1[i]);
+                }
+                    break;
 
                 case 2: for(i = 0; i < truckSequence2.length; i++){
-                            copPattern.push(truckSequence2[i]);
-                        }
-                        break;
+                    copPattern.push(truckSequence2[i]);
+                }
+                    break;
 
                 case 3: for(i = 0; i < truckSequence3.length; i++){
-                            copPattern.push(truckSequence3[i]);
-                        }
-                        break;
+                    copPattern.push(truckSequence3[i]);
+                }
+                    break;
 
                 case 4: for(i = 0; i < truckSequence4.length; i++){
-                            copPattern.push(truckSequence4[i]);
-                        }
-                        break;
+                    copPattern.push(truckSequence4[i]);
+                }
+                    break;
             }
 
 
@@ -1234,7 +1272,6 @@ jsPsych.plugins['tailgate'] = (function(){
                             copPattern.push(truckSequence1[j]); //push the sequence on pattern array
                         }*!/
                         break;
-
                 case 2: portion = getTruckSequencePortion(); //truckSeq2
                         if(truckSequence2[0] === copPattern[copPattern.length - 1]){
                             for(j = 1; j < portion; j++){
@@ -1254,7 +1291,6 @@ jsPsych.plugins['tailgate'] = (function(){
                             copPattern.push(truckSequence2[j]); //push the sequence on pattern array
                         }*!/
                         break;
-
                 case 3: portion = getTruckSequencePortion(); //truckSeq3
                         if(truckSequence3[0] === copPattern[copPattern.length - 1]){
                             for(j = 1; j < portion; j++){
@@ -1274,7 +1310,6 @@ jsPsych.plugins['tailgate'] = (function(){
                             copPattern.push(truckSequence3[j]); //push the sequence on pattern array
                         }*!/
                         break;
-
                 case 4: portion = getTruckSequencePortion(); //truckSeq4
                         if(truckSequence4[0] === copPattern[copPattern.length - 1]){
                             for(j = 1; j < portion; j++){
@@ -1597,7 +1632,6 @@ jsPsych.plugins['tailgate'] = (function(){
 
         function restartGame(){
             /*//reset variables to original state
-
             tutorialSign.style.visibility = 'hidden';
             introText.style.visibility = 'hidden';
             tutButton.style.visibility = 'hidden';
@@ -1612,14 +1646,11 @@ jsPsych.plugins['tailgate'] = (function(){
             prevTruckSeq = 0;
             currentTruckSequence = 1;
             score = 0;
-
             //reset player car to original state
             sportsCar.style.left = currentPlayerXPos + (.04 * width) + 'px';
             sportsCar.style.top = (height - carOffset) + 'px';
             initialCarYPos = (height - carOffset);
-
             //reset starting white trucks to original state
-
             countDownTimerInc();*/
             location.reload(); //reloads page change in future to  skip tutorial after first playthrough
         }
@@ -1729,20 +1760,20 @@ jsPsych.plugins['tailgate'] = (function(){
         }
 
         function toggleFullScreen(e){
-                e.stopPropagation();
-                var doc = window.document;
-                var docEl = doc.documentElement;
+            e.stopPropagation();
+            var doc = window.document;
+            var docEl = doc.documentElement;
 
-                var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-                var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+            var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+            var cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
 
-                if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-                    requestFullScreen.call(docEl);
-                }
-                else {
-                    cancelFullScreen.call(doc);
-                }
+            if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+                requestFullScreen.call(docEl);
             }
+            else {
+                cancelFullScreen.call(doc);
+            }
+        }
 
         //Keyboard touch input
         //If FGHJ are pressed, move the player to the correct lane
@@ -1866,24 +1897,12 @@ jsPsych.plugins['tailgate'] = (function(){
 
 
         //for the timer
-        function incrementTimer() {
+        function incrementTimer(){
             setTimeout(function () {
-                if (timerRunning === true) {
-                    time++;
-                    remainingTime = overallGameTime - time;
-                    var secs = Math.floor(remainingTime / 100);
-                    var hundredths = remainingTime % 100;
-                    if (secs < 10) {
-                        secs = "0" + secs.toString();
-                    } else {
-                        secs = secs.toString();
-                    }
-                    hundredths = hundredths.toString();
-
-                    document.getElementById("Time").innerText = secs + "." + hundredths;
-                    incrementTimer();
-                }
-            }, 10);
+                //console.log('hit increment timer');
+                time++;
+                incrementTimer();
+            }, 1);
         }
 
         function setCurrentPlayerXPos() {
@@ -2059,22 +2078,22 @@ jsPsych.plugins['tailgate'] = (function(){
 
         }
 
-        function timeUp(){
+        /*function timeUp(){
             timerRunning = false;
             animationState = null; //makes trucks move down
-            /*console.log(sportsCar.style.top);
+            /!*console.log(sportsCar.style.top);
             var currentPlayerYPos  = sportsCar.style.top;
             while (currentPlayerYPos > -2000) { //make player car go up and off screen
                 currentPlayerYPos -= 1;
                 sportsCar.style.top = currentPlayerYPos + 'px';
-            }*/
+            }*!/
             let sum = 0;
             let i;
             for(i = 1; i < inputTime.length; i++){ //skip the first value in the inputtime array
                 sum += inputTime[i];
             }
             var avgInputTime = sum/i;
-            var avgInputTimeStr = (avgInputTime /** 100 / 100*/) + "";
+            var avgInputTimeStr = (avgInputTime /!** 100 / 100*!/) + "";
 
             endSlide = true;
             tutorialText2.style.visibility = 'hidden';
@@ -2090,6 +2109,51 @@ jsPsych.plugins['tailgate'] = (function(){
                 introText.innerHTML = "You scored " + score + " points and had an average input time of " +  parseFloat(avgInputTimeStr).toFixed(2) + " ms";
             }
             tutButton.innerHTML = "NEW GAME";
+            /!*alert("TIME IS UP, YOU SCORED: " + score + " POINTS");
+            window.close();*!/
+        }*/
+
+        function livesDone(){
+            timerRunning = false;
+            animationState = null; //makes trucks move down
+            /*console.log(sportsCar.style.top);
+            var currentPlayerYPos  = sportsCar.style.top;
+            while (currentPlayerYPos > -2000) { //make player car go up and off screen
+                currentPlayerYPos -= 1;
+                sportsCar.style.top = currentPlayerYPos + 'px';
+            }*/
+
+            /*let sum = 0;
+            let i;
+            for(i = 1; i < inputTime.length; i++){ //skip the first value in the inputtime array
+                sum += inputTime[i];
+            }
+            var avgInputTime = sum/i;
+            var avgInputTimeStr = (avgInputTime /!** 100 / 100*!/) + "";*/
+
+
+            let sum = 0;
+            let i;
+            for(i = 1; i < inputTime.length; i++){ //skip the first value in the inputtime array
+                sum += inputTime[i];
+            }
+            var avgInputTime = sum/i;
+
+
+            endSlide = true;
+            tutorialText2.style.visibility = 'hidden';
+            tutorialSign.style.visibility = 'visible';
+            introText.style.visibility = 'visible';
+            tutButton.style.visibility = 'visible';
+            tutorialSign2.style.visibility = 'hidden';
+            introText2.style.visibility = 'hidden';
+            if(score === 1){
+                introText.innerHTML = "You scored " + score + " point";
+            }
+            else{
+                introText.innerHTML = "You scored " + score + " points and had an average input time of " + Math.round(avgInputTime * 5) + " ms.";
+            }
+            tutButton.innerHTML = "NEW GAME";
             /*alert("TIME IS UP, YOU SCORED: " + score + " POINTS");
             window.close();*/
         }
@@ -2097,34 +2161,34 @@ jsPsych.plugins['tailgate'] = (function(){
         function changeValues(){
             switch(changeValCounter){
                 case 1: brakeV = .04 - portraitOffset;
-                        maxCarV = 2.5;
-                        break;
+                    maxCarV = 2.4; //2.5
+                    break;
 
                 case 2: brakeV = .055 - portraitOffset;
-                        maxCarV = 2.75;
-                        break;
+                    maxCarV = 2.65; //2.75
+                    break;
 
                 case 3: brakeV = .07 - portraitOffset;
-                        maxCarV = 3;
-                        break;
+                    maxCarV = 2.85; //3
+                    break;
 
                 case 4: brakeV = .1025 - portraitOffset;
-                        maxCarV = 3.25;
-                        break;
+                    maxCarV = 2.95; //3.25
+                    break;
 
                 case 5: brakeV = .135 - portraitOffset;
-                        maxCarV = 3.5;
-                        break;
+                    maxCarV = 3.0; //3.5
+                    break;
 
                 case 6: brakeV = .1675 - portraitOffset;
-                        maxCarV = 3.75;
-                        break;
+                    maxCarV = 3.05; //3.75
+                    break;
             }
         }
 
         function checkInput() {
-            console.log(currentLanePos);
-            console.log(copPattern[iterator]);
+            //console.log(currentLanePos);
+            //console.log(copPattern[iterator]);
             //for timed mode
 
             /*if (currentLanePos === copPattern[iterator]) { //player gave right input
@@ -2145,15 +2209,21 @@ jsPsych.plugins['tailgate'] = (function(){
                 correctInputGiven = true;
                 animationState = 'movingDown';*/
             if(currentLanePos === copPattern[iterator]){ //player gave right input
+
+                endTime = time;
+                inputTime.push(endTime - startTime);
+                startTime = 0;
+                endTime = 0;
                 truckSound.play();
-                let userInputTime = tempTime - remainingTime;
-                inputTime.push(userInputTime); //array used for average time user took to input a lane
-                dataPoint.push(userInputTime);
+                //let userInputTime = tempTime - remainingTime;
+                //inputTime.push(userInputTime); //array used for average time user took to input a lane
+                //dataPoint.push(userInputTime);
                 dataPoint.push(currentTruckSequence);
                 listOfDataPoints.push(dataPoint);
                 //console.log(listOfDataPoints);
-                console.log(dataPoint);
-                score += 1;
+                //console.log(dataPoint);
+                //score += 1;
+                updatePosition();
                 if(score % incrementSpeed === 0){
                     changeValCounter++;
                     changeValues();
@@ -2170,7 +2240,16 @@ jsPsych.plugins['tailgate'] = (function(){
                 animationState = 'movingDown';
             } else {//player gave wrong input
                 crashSound.play();
-                lives--;
+                console.log(doubleError);
+                if(doubleError === false)
+                {
+                    //lives--;
+                }
+                else {
+                    doubleError = false;
+                }
+                document.getElementById("Time").innerText = lives + "";
+
                 wrongInputGiven = true;
                 /*if(lives === 0){
                     alert("All lives lost");
@@ -2182,6 +2261,14 @@ jsPsych.plugins['tailgate'] = (function(){
             }
 
         }
+
+        function updatePosition(){
+            score += 1;       
+            currentY -=2;
+            document.getElementById('player1-icon').style.top = currentY + '%';
+        }
+
+        
     }
-return plugin;
+    return plugin;
 })();

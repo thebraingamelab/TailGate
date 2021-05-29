@@ -53,39 +53,170 @@ body {
     height: 25px;
     width: 25px;
     right: 25px;
-    z-index: 5;
 }
 
-
-#Time{
+/*#music{
     position: absolute;
-    z-index: 3;
-    width: 5%;
-    height: 8%;
-    top: 15%;
-    left: 50%;
-    color: #e9ee44;
-    font-family: 'Overpass', sans-serif;
-    font-size: 22px;
-}
+    height: 25px;
+    width: 25px;
+    right: 85px;
+}*/
 
-#Trucks{
-    position: absolute;
-    z-index: 3;
-    width: 5%;
-    height: 8%;
-    top: 65%;
-    left: 75%;
-    color: #00ff00;
-    font-family: 'Overpass', sans-serif;
-    font-size: 22px;
-}
-
-/*
+/*.material-icons{
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}*/
+/*------------------------------*/
 body{
     font-family: 'Overpass', sans-serif;
     margin: 0;
-}*/
+}
+
+#tutorialSignFrame{
+    width: 100%;
+    position: absolute;
+    top: 20%;
+    z-index: 10;
+}
+
+#tutButton{
+    display: inline-block;
+    position: absolute;
+    background-color: yellow;
+    color: black;
+    bottom: 10px;
+    right: 1em;
+    padding: 0.2em 1em;
+    font-weight: bold;
+    z-index: 52;
+}
+
+#tutButton:active{
+    background-color: #ffd001;
+}
+
+#tutorialSign{
+    width: 100%;
+    top: 50%;
+    position: relative;
+    z-index: 51;
+}
+
+#tutorialText{
+    position: absolute;
+    width: 50%;
+    height: 90%;
+    top: 3%;
+    left: 25%;
+    display: flex;
+    align-items: center;
+}
+
+#countdownFrame{
+    width: 80%;
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    height: 50%;
+    z-index: 3;
+}
+
+#countdownFrame2{
+    width: 80%;
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    height: 50%;
+    z-index: 3;
+}
+
+#countdownFrame3{
+    width: 80%;
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    height: 50%;
+    z-index: 3;
+}
+
+#countDown1{
+    width: 100%;
+    position: relative;
+    visibility: hidden;
+    height: 100%;
+    z-index: 20;
+}
+
+#countDown2{
+    width: 100%;
+    position: relative;
+    visibility: hidden;
+    height: 100%;
+    z-index: 20;
+}
+
+#countDown3{
+    width: 100%;
+    position: relative;
+    visibility: hidden;
+    height: 100%;
+    z-index: 20;
+}
+
+#introText{
+    font-family: 'Overpass', sans-serif;
+    font-size: 2.5vw;
+    line-height: 1.25em;
+    margin: 3%;
+    padding: 1em 0.5em;
+    text-align: left;
+    height: 75%;
+    z-index: 51;
+}
+
+#tutorialSignFrame2{
+    width: 30%;
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    top: 20%;
+}
+
+#tutorialSign2{
+    visibility: hidden;
+    width: 100%;
+}
+
+#tutorialText2{
+    position: absolute;
+    width: 74%;
+    background-color: #22aa44;
+    visibility: hidden;
+    height: 71%;
+    top: 13%;
+    left: 10%;
+}
+
+#introText2{
+    font-family: 'Overpass', sans-serif;
+    font-size: 1.5vw;
+    line-height: 1.5em;
+    text-align: left;
+    margin: 0;
+}
+
+/*------------------------------*/
 
 #frame{
     width: 1000px;
@@ -104,6 +235,7 @@ body{
 }
 
 @media only screen and (max-width: 1500px) { /*device has less than 1500 px screen width*/
+
     #frame {
         width: 100%;
         height: 100%;
@@ -189,17 +321,115 @@ body{
     }
 }
 
-#infoBarImageContainer{
-    background-image: url('assets/info-bar.svg');
-    /*background-position: center;
-    background-size: cover;*/
+#overlay {
     width: 200px;
     height: 102px;
+    background-color: #00000099;
     position: absolute;
     z-index: 2;
-    opacity: .6;
-    left: 0;
-    top: 1.6%;
+    top: 2%;
+    /* padding: 10px; */
+    /*font-size: 18px;*/
+    /*font-family: 'Overpass';*/
+    /*color: white;*/
+    /*line-height: 30px;*/
+}
+
+#trackOverlay {
+    width: 150px;
+    height: 300px;
+    background-color: #00000099;
+    position: absolute;
+    z-index: 2;
+    top: 20%;
+    /* padding: 10px; */
+    /*font-size: 18px;*/
+    /*font-family: 'Overpass';*/
+    /*color: white;*/
+    /*line-height: 30px;*/
+}
+#player1-icon{
+    position: absolute;
+    background-color: #e01c1c;
+    width: 20px;
+    height: 30px;
+    top: 85%;
+    left: 10%;
+    z-index: 3;
+
+}
+
+#timer-label {
+    /*display: inline-block;
+    width: 60%;
+    font-weight: 700;
+    color: #F49661;
+    left: 5%;*/
+
+    position: absolute;
+    z-index: 3;
+    width: 55%;
+    height: 20%;
+    left: 5%;
+    top: 16%;
+    font-family: 'Overpass', sans-serif;
+    font-weight: 100;
+    font-size: 22px;
+    text-align: left;
+    opacity: 100;
+}
+
+#lineSeparator {
+    position: absolute;
+    color: #ffffff;
+    width: 90%;
+    height: 1%;
+    top: 50%;
+    left: 5%;
+    z-index: 3;
+    border-bottom: 1px solid white;
+}
+
+#Time {
+    position: absolute;
+    z-index: 5;
+    width: 50%;
+    height: 40%;
+    top: 15%;
+    right: 5%;
+    color: #f3e511;
+    font-family: 'Overpass', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    text-align: right;
+}
+
+#score-label {
+    position: absolute;
+    z-index: 3;
+    width: 55%;
+    height: 20%;
+    left: 5%;
+    top: 60%;
+    font-family: 'Overpass', sans-serif;
+    font-weight: 100;
+    font-size: 22px;
+    color: #ffffff;
+    text-align: left;
+}
+
+#Trucks {
+    position: absolute;
+    z-index: 5;
+    width: 50%;
+    height: 40%;
+    top: 61%;
+    right: 5%;
+    color: #00ff00;
+    font-family: 'Overpass', sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    text-align: right;
 }
 
 #container {
@@ -214,4 +444,80 @@ body{
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+@media only screen and (max-width: 1000px){ /*for devices other than ipad and pc*/
+    #tutButton{
+        display: inline-block;
+        position: absolute;
+        background-color: yellow;
+        color: black;
+        bottom: .5em; /*10px*/
+        right: .35em; /*1em*/
+        /*padding: 0.02em .1em; /*.02em .1em*/
+        font-weight: bold;
+        font-size: 1em;
+        z-index: 52;
+    }
+
+    #introText{
+        font-family: 'Overpass', sans-serif;
+        font-size: 3.25vw;
+        line-height: 1.25em;
+        margin: 3%;
+        padding: 1em 0.5em;
+        text-align: left;
+        height: 75%;
+        z-index: 51;
+    }
+
+    #introText2{
+        font-family: 'Overpass', sans-serif;
+        font-size: 2.25vw;
+        line-height: 1.5em;
+        text-align: left;
+        margin: 0;
+    }
+
+    #overlay{
+        width: 20%;
+        height: 25%;
+    }
+
+    #trackOverlay{
+        width: 20%;
+        height: 25%;
+    }
+
+    #timer-label{
+        font-size: inherit;
+    }
+
+    #Time{
+        right: 10%;
+        font-size: inherit;
+    }
+
+    #score-label{
+        font-size: inherit;
+    }
+
+    #Trucks{
+        right: 10%;
+        font-size: inherit;
+    }
+}
+
+/* force landscape orientation*/
+@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
+    html {
+        transform: rotate(-90deg);
+        transform-origin: left top;
+        width: 100vh;
+        height: 100vw;
+        overflow-x: hidden;
+        position: absolute;
+        top: 100%;
+        left: 0;
+    }
 }

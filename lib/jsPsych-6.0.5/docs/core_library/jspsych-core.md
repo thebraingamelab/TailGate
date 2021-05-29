@@ -362,6 +362,8 @@ max_preload_attempts | numeric | The maximum number of attempts to preload each 
 use_webaudio | boolean | If false, then jsPsych will not attempt to use the WebAudio API for audio playback. Instead, HTML5 Audio objects will be used. The WebAudio API offers more precise control over the timing of audio events, and should be used when possible. The default value is true.
 default_iti | numeric | The default inter-trial interval in ms. The default value if none is specified is 0ms.
 experiment_width | numeric | The desired width of the jsPsych container in pixels. If left undefined, the width will be 100% of the display element. Usually this is the `<body>` element, and the width will be 100% of the screen size.
+minimum_valid_rt | numeric | The minimum valid response time for key presses during the experiment. Any key press response time that is less than this value will be treated as invalid and ignored. Note that this parameter only applies to _keyboard responses_, and not to other response types such as buttons and sliders. The default value is 0.
+override_safe_mode | boolean | Running a jsPsych experiment directly in a web browser (e.g., by double clicking on a local HTML file) will load the page using the `file://` protocol. Some features of jsPsych don't work with this protocol. By default, when jsPsych detects that it's running on a page loaded via the `file://` protocol, it runs in _safe mode_, which automatically disables features that don't work in this context. Specifically, the use of Web Audio is disabled (audio will be played using HTML5 audio instead, even if `use_webaudio` is `true`) and video preloading is disabled (both automatic preloading and manual preloading via `preload_video`). The `override_safe_mode` parameter defaults to `false`, but you can set it to `true` to force these features to operate under the `file://` protocol. In order for this to work, you will need to disable web security (CORS) features in your browser - this is safe to do if you know what you are doing. Note that this parameter has no effect when you are running the experiment on a web server, because the page will be loaded via the `http://` or `https://` protocol.
 
 Possible values for the exclusions parameter above.
 
@@ -579,11 +581,11 @@ jsPsych.timelineVariable(variable, call_immediate)
 Parameter | Type | Description
 ----------|------|------------
 variable | string | Name of the timeline variable
-call_immediate | bool | Typically this parameter is `false`, or simply ommitted. When `false`, the return value is a function that returns the timeline variable. This makes `jsPsych.timelineVariable` suitable for dynamic parameters by default. If `true` the function returns the value of the timeline variable immediately.
+call_immediate | bool | This parameter is optional and can usually be omitted. It determines the return value of `jsPsych.timelineVariable`. If `true`, the function returns the _value_ of the current timeline variable. If `false`, the function returns _a function that returns the value_ of the current timeline variable. When `call_immediate` is omitted, the appropriate option is determined automatically based on the context in which this function is called. When `jsPsych.timelineVariable` is used as a parameter value, `call_immediate` will be `false`. This allows it to be used as a [dynamic trial parameter](/overview/trial/#dynamic-parameters). When `jsPsych.timelineVariable` is used inside of a function, `call_immediate` will be `true`. It is possible to explicitly set this option to `true` to force the function to immediately return the current value of the timeline variable. 
 
 ### Return value
 
-Depends on the value of `call_immediate` parameter. See description above.
+Either a function that returns the value of the timeline variable, or the value of the timeline variable, depending on the context in which it is used. See `call_immediate` description above.
 
 ### Description
 
@@ -614,6 +616,25 @@ var procedure = {
 var trial = {
   type: 'html-keyboard-response',
   stimulus: function(){
+    return "<img style='width:100px; height:100px;' src='"+jsPsych.timelineVariable('image')+"'></img>";
+  }
+}
+
+var procedure = {
+  timeline: [trial],
+  timeline_variables: [
+    {image: 'face1.png'},
+    {image: 'face2.png'},
+    {image: 'face3.png'},
+    {image: 'face4.png'}
+  ]
+}
+```
+Prior to jsPsych v6.3.0, the `call_immediate` parameter must be set to `true` when `jsPsych.timelineVariable` is called from within a function, such as a [dynamic parameter](/overview/trial/#dynamic-parameters):
+```javascript
+var trial = {
+  type: 'html-keyboard-response',
+  stimulus: function(){
     return "<img style='width:100px; height:100px;' src='"+jsPsych.timelineVariable('image', true)+"'></img>";
   }
 }
@@ -628,7 +649,6 @@ var procedure = {
   ]
 }
 ```
-
 
 ---
 ## jsPsych.totalTime

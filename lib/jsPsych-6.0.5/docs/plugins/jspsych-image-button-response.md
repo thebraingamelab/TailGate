@@ -4,8 +4,7 @@ This plugin displays an image and records responses generated with a button clic
 
 ## Parameters
 
-Parameters with a default value of *undefined* must be specified.
-Other parameters can be left unspecified if the default value is acceptable.
+In addition to the [parameters available in all plugins](overview.md#parameters-available-in-all-plugins), this plugin accepts the following parameters. Parameters with a default value of *undefined* must be specified. Other parameters can be left unspecified if the default value is acceptable.
 
 Parameter | Type | Default Value | Description
 ----------|------|---------------|------------
@@ -20,11 +19,12 @@ stimulus_duration | numeric | null | How long to show the stimulus for in millis
 trial_duration | numeric | null | How long to wait for the subject to make a response before ending the trial in milliseconds. If the subject fails to make a response before this timer is reached, the subject's response will be recorded as null for the trial and the trial will end. If the value of this parameter is null, the trial will wait for a response indefinitely.
 margin_vertical | string | '0px' | Vertical margin of the button(s).
 margin_horizontal | string | '8px' | Horizontal margin of the button(s).
-response_ends_trial | boolean | true | If true, then the trial will end whenever the subject makes a response (assuming they make their response before the cutoff specified by the `trial_duration` parameter). If false, then the trial will continue until the value for `timing_response` is reached. You can use this parameter to force the subject to view a stimulus for a fixed amount of time, even if they respond before the time is complete.
+response_ends_trial | boolean | true | If true, then the trial will end whenever the subject makes a response (assuming they make their response before the cutoff specified by the `trial_duration` parameter). If false, then the trial will continue until the value for `trial_duration` is reached. You can set this parameter to `false` to force the subject to view a stimulus for a fixed amount of time, even if they respond before the time is complete.
+render_on_canvas | boolean | true | If true, the image will be drawn onto a canvas element. This prevents a blank screen (white flash) between consecutive image trials in some browsers, like Firefox and Edge. If false, the image will be shown via an img element, as in previous versions of jsPsych.
 
 ## Data Generated
 
-In addition to the [default data collected by all plugins](overview#datacollectedbyplugins), this plugin collects the following data for each trial.
+In addition to the [default data collected by all plugins](overview.md#data-collected-by-plugins), this plugin collects the following data for each trial.
 
 Name | Type | Value
 -----|------|------
